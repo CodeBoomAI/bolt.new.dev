@@ -7,6 +7,12 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig((config) => {
   return {
+     // Tambahkan blok server di sini
+    server: {
+      host: '0.0.0.0',           // Wajib untuk Codespaces
+      port: 5173,                // Pastikan port benar
+      strictPort: true,          // Gagal jika port dipakai
+    },
     build: {
       target: 'esnext',
     },
