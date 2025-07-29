@@ -21,16 +21,28 @@ export type Messages = Message[];
 
 export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 
-export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
-  return _streamText({
-    model: getOpenRouterModel(getAPIKey(env)),
-    system: getSystemPrompt(),
-    maxTokens: MAX_TOKENS,
-    headers: {
-      "HTTP-Referer": "https://openrouter.ai/", // Optional. Site URL for rankings on openrouter.ai.
-      "X-Title": "qwen/qwen3-coder:free", // Optional. Site title for rankings on openrouter.ai.
-    },
-    messages: convertToCoreMessages(messages),
-    ...options,
-  });
+export async function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
+  try {
+    return await _streamText({
+      model: getOpenRouterModel(getAPIKey(env)),
+      system: getSystemPrompt(),
+      maxTokens: MAX_TOKENS,
+      headers: {
+        'HTTP-Referer': 'https://improved-xylophone-q795w4jxw6v72947q-5173.app.github.dev', // 🔗 Ganti dengan URL aplikasimu
+        'X-Title': 'Bolt.new AI Editor',         // 📝 Nama aplikasi, bukan model
+      },
+      messages: convertToCoreMessages(messages),
+      ...options,
+    });
+  } catch (error: any) {
+    if (error.message?.includes('free-models-per-day')) {
+      throw new Error(
+        'Hari ini kuota model gratis telah habis. ' +
+        'Silakan kunjungi https://openrouter.ai/credits dan tambahkan 10 kredit ' +
+        'untuk mendapatkan 1000 permintaan gratis per hari.'
+      );
+    }
+    // Re-throw error lainnya
+    throw error;
+  }
 }

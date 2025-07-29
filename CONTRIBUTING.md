@@ -59,7 +59,7 @@ pnpm install
 3. Create a `.env.local` file in the root directory and add your Anthropic API key:
 
 ```
-ANTHROPIC_API_KEY=XXX
+OPENROUTER_API_KEY=sk-or-***
 ```
 
 Optionally, you can set the debug level:

@@ -1,12 +1,16 @@
-import { createOpenAI } from '@ai-sdk/openai'; 
+import { createOpenAI } from '@ai-sdk/openai';
 
-export function getOpenRouterModel(apiKey: string) {
+const models = [
+  'qwen/qwen3-coder:free',
+  'google/gemma-2b-it:free',
+  'mistralai/mistral-7b-instruct:free'
+];
+
+export function getAIModel(apiKey: string, index = 0) {
   const openrouter = createOpenAI({
     apiKey,
-    baseURL: 'https://openrouter.ai/api/v1', // Endpoint OpenRouter
-    organization: '', // Opsional (OpenRouter tidak memerlukan ini)
+    baseURL: 'https://openrouter.ai/api/v1',
   });
 
-  // Gunakan format model OpenRouter: 'provider/model-name'
-  return openrouter('qwen/qwen3-coder:free');
+  return openrouter(models[index] || models[0]);
 }
