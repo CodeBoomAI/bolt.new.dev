@@ -1,9 +1,12 @@
-import { createAnthropic } from '@ai-sdk/anthropic';
+import { createOpenAI } from '@ai-sdk/openai'; 
 
-export function getAnthropicModel(apiKey: string) {
-  const anthropic = createAnthropic({
+export function getOpenRouterModel(apiKey: string) {
+  const openrouter = createOpenAI({
     apiKey,
+    baseURL: 'https://openrouter.ai/api/v1', // Endpoint OpenRouter
+    organization: '', // Opsional (OpenRouter tidak memerlukan ini)
   });
 
-  return anthropic('claude-3-5-sonnet-20240620');
+  // Gunakan format model OpenRouter: 'provider/model-name'
+  return openrouter('qwen/qwen3-coder:free');
 }
